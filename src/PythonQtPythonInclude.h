@@ -33,10 +33,14 @@
 #ifndef __PythonQtPythonInclude_h
 #define __PythonQtPythonInclude_h
 
-// Undefine macros that Python.h defines to avoid redefinition warning.
-#undef _POSIX_C_SOURCE
-#undef _POSIX_THREADS
-#undef _XOPEN_SOURCE
+// Undefine macros that features.h defines to avoid redefinition warning
+#ifdef _POSIX_C_SOURCE
+#  undef _POSIX_C_SOURCE
+#endif
+
+#ifdef _XOPEN_SOURCE
+#  undef _XOPEN_SOURCE
+#endif
 
 // Undefine Qt keywords that conflict with Python headers
 #ifdef slots
@@ -44,13 +48,21 @@
 #define PYTHONQT_RESTORE_KEYWORDS
 #endif
 
-// 
-// Use the real python debugging library if it is provided.  
+//From https://github.com/boostorg/python/pull/253
+// Python.h defines a macro with hypot name, what breaks libstdc++ math header
+// that it tries to include afterwards.
+# if defined(__MINGW32__)
+#  include <cmath>
+#  include <math.h>
+# endif
+
+//
+// Use the real python debugging library if it is provided.
 // Otherwise use the "documented" trick involving checking for _DEBUG
 // and undefined that symbol while we include Python headers.
 // Update: this method does not fool Microsoft Visual C++ 8 anymore; two
 // of its header files (crtdefs.h and use_ansi.h) check if _DEBUG was set
-// or not, and set flags accordingly (_CRT_MANIFEST_RETAIL, 
+// or not, and set flags accordingly (_CRT_MANIFEST_RETAIL,
 // _CRT_MANIFEST_DEBUG, _CRT_MANIFEST_INCONSISTENT). The next time the
 // check is performed in the same compilation unit, and the flags are found,
 // and error is triggered. Let's prevent that by setting _CRT_NOFORCE_MANIFEST.
