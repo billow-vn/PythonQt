@@ -19,7 +19,11 @@
 </group>
 <enum-type name="QSoundEffect::Status"/>
 <enum-type name="QSoundEffect::Loop"/>
-<enum-type name="QAbstractVideoBuffer::HandleType"/>
+<enum-type name="QAbstractVideoBuffer::HandleType">
+  <!-- GLTextureRectangleHandle did not exist until Qt 5.15.8 (introduced for macOS it seems);
+       Ubuntu 22.04 only has Qt 5.15.3 by default. In Qt 6 QAbstractVideoBuffer is private anyway. -->
+  <reject-enum-value name="GLTextureRectangleHandle"/>
+</enum-type>
 <enum-type name="QAbstractVideoBuffer::MapMode"/>
 <enum-type name="QCameraImageCapture::Error"/>
 <enum-type name="QCameraImageCapture::DriveMode"/>
@@ -64,9 +68,10 @@
 <enum-type name="QMediaPlayer::MediaStatus"/>
 <enum-type name="QMediaPlayer::Error"/>
 <enum-type name="QMediaPlayer::Flag" flags="QMediaPlayer::Flags"/>
-<enum-type name="QAudio::Error"/>
+<enum-type name="QAudio::Error" aliases="QtAudio::Error"/>
+<enum-type name="QAudio::State" aliases="QtAudio::State"/>
+<enum-type name="QAudio::VolumeScale" aliases="QtAudio::VolumeScale"/>
 <enum-type name="QAudio::Mode"/>
-<enum-type name="QAudio::State"/>
 <enum-type name="QAudio::Role"/>
 <enum-type name="QMultimedia::SupportEstimate"/>
 <enum-type name="QMultimedia::EncodingQuality"/>
@@ -188,7 +193,6 @@
 <object-type name="QVideoRendererControl"/>
 <object-type name="QVideoWidgetControl"/>
 <object-type name="QVideoWindowControl"/>
-<enum-type name="QAudio::VolumeScale"/>
 
 <object-type name="QMediaServiceProviderPlugin"/>
 
